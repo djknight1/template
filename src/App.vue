@@ -1,25 +1,30 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div class="pg-index" :style="{backgroundColor: '{{bgColor}}'}">
+    <div class="main-container" :style="{
+        backgroundColor: '{{bgColor}}',
+        backgroundImage: '{{bgImage}}' ? 'url({{bgImage}})' : null,
+        backgroundSize: '{{bgSize}}',
+        backgroundRepeat: 'no-repeat'
+      }">
+      {{#components}}
+      <div class="cp-module-editor {{className}} {{data.className}}">
+        <{{name}} class="temp-component" :data="{{tostring data}}" data-type="{{upcasefirst name}}"></{{name}}>
     </div>
-    <router-view/>
+    {{/components}}
+  </div>
   </div>
 </template>
-<style lang="stylus">
-#app
-  font-family 'Avenir', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
 
-#nav
-  padding 30px
-  a
-    font-weight bold
-    color #2c3e50
-    &.router-link-exact-active
-      color #42b983
-</style>
+<script>
+  {{#noRepeatCpsName}}
+  import {{upcasefirst this}} from '{{this}}'
+  {{/noRepeatCpsName}}
+  export default {
+      name: '{{upcasefirst repoName}}',
+        components: {
+        {{#noRepeatCpsName}}
+        {{upcasefirst this}},
+        {{/noRepeatCpsName}}
+        }
+        }
+</script>
